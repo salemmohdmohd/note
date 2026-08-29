@@ -116,7 +116,7 @@
 
     els.tree.appendChild(renderPinned());
 
-    if (!state.paths.length) {
+    if (!state.tree.children.length) {
       els.tree.appendChild(emptyLibraryHint());
       return;
     }
@@ -125,7 +125,7 @@
     heading.className = 'tree-heading';
     heading.textContent = 'Library';
     els.tree.appendChild(heading);
-    els.tree.appendChild(renderDir(state.tree, true));
+    els.tree.appendChild(renderDir(state.tree));
 
     syncActiveLink();
   }
@@ -158,7 +158,7 @@
     return item;
   }
 
-  function renderDir(dir, isRoot) {
+  function renderDir(dir) {
     var list = document.createElement('ul');
     list.className = 'tree-list';
 
@@ -168,7 +168,6 @@
       list.appendChild(item);
     });
 
-    if (isRoot && !dir.children.length) list.appendChild(emptyLibraryHint());
     return list;
   }
 
@@ -192,11 +191,13 @@
     summary.appendChild(count);
 
     details.appendChild(summary);
-    details.appendChild(renderDir(node, false));
+    details.appendChild(renderDir(node));
     details.dataset.path = node.path;
 
-    details.addEventListener('toggle', function () {
-      state.openFolders[node.path] = details.open;
+    // Listening for clicks rather than the `toggle` event keeps opening a
+    // folder to reveal the active note from being recorded as a preference.
+    summary.addEventListener('click', function () {
+      state.openFolders[node.path] = !details.open;
       writeJson(FOLDERS_KEY, state.openFolders);
     });
 
