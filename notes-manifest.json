@@ -1,0 +1,10 @@
+{
+  "_comment": "Optional fallback list of note paths, used only when the GitHub API is unreachable, rate limited, or the repository cannot be detected from the URL (custom domain, local server). Keep it sorted and in sync when adding or moving notes.",
+  "paths": [
+    "notes/README.md",
+    "notes/archive/example-finished-note.md",
+    "notes/inbox/example-captured-link.md",
+    "notes/reading/books/example-book-notes.md",
+    "notes/reading/markdown-formatting-reference.md"
+  ]
+}
